@@ -10,18 +10,19 @@ const RESOURCES = {
 "assets/assets/profile.jpg": "2660fca5721a41c8945acebe17fc5618",
 "assets/FontManifest.json": "5a32d4310a6f5d9a6b651e75ba0d7372",
 "assets/fonts/MaterialIcons-Regular.otf": "a68d2a28c526b3b070aefca4bac93d25",
-"assets/NOTICES": "c1df68ca0a735e2177fa4442e78d7102",
+"assets/NOTICES": "3b04c7f66eafdd65a4755ef26bea2f78",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "b14fcf3ee94e3ace300b192e9e7c8c5d",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-brands-400.ttf": "5a37ae808cf9f652198acde612b5328d",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-regular-400.ttf": "2bca5ec802e40d3f4b60343e346cedde",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-solid-900.ttf": "2aa350bd2aeab88b601a593f793734c0",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "7b2bc905960ac856d6d8c1b0c4a70051",
-"/": "7b2bc905960ac856d6d8c1b0c4a70051",
-"main.dart.js": "619e5d194eb24558b09a8fbda2971744",
-"manifest.json": "a8f43bca3e59203640c11f969a524188"
+"favicon.png": "4c061b563402f3ac56b4c5f5b4aa350d",
+"icons/icon-192.png": "0679b8d73c4f76666c2f88221ce2b672",
+"icons/icon-512.png": "7c90e6071cf14ffa4015b7b71b4c6558",
+"index.html": "56f979fabac934c1f9fd416381701115",
+"/": "56f979fabac934c1f9fd416381701115",
+"main.dart.js": "00057410acc65603800695cf18a1e361",
+"manifest.json": "440f5c4e9a1747cf9700ec01f4b34489",
+"version.json": "1f308f6516a18ecd7674c9a450a742cd"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -35,6 +36,7 @@ const CORE = [
 "assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
@@ -103,6 +105,9 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
   var origin = self.location.origin;
   var key = event.request.url.substring(origin.length + 1);
   // Redirect URLs to the index.html
@@ -112,9 +117,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#') || key == '') {
     key = '/';
   }
-  // If the URL is not the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list then return to signal that the
+  // browser should take over.
   if (!RESOURCES[key]) {
-    return event.respondWith(fetch(event.request));
+    return;
   }
   // If the URL is the index.html, perform an online-first request.
   if (key == '/') {
@@ -138,10 +144,12 @@ self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
   if (event.data === 'skipWaiting') {
-    return self.skipWaiting();
+    self.skipWaiting();
+    return;
   }
-  if (event.message === 'downloadOffline') {
+  if (event.data === 'downloadOffline') {
     downloadOffline();
+    return;
   }
 });
 

@@ -1,11 +1,11 @@
 {
-    "name": "web",
-    "short_name": "web",
+    "name": "Jonathan Vegas Peixoto",
+    "short_name": "Jonathan",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter application.",
+    "background_color": "#009688",
+    "theme_color": "#009688",
+    "description": "Portfolio",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
