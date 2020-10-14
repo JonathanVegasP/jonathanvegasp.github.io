@@ -9468,7 +9468,7 @@ a5c:function(a){var s=0,r=P.aa(t.P),q,p,o
 var $async$a5c=P.a5(function(b,c){if(b===1)return P.a7(c,r)
 while(true)switch(s){case 0:o=["images/app_store.svg","images/avatar.jpg","images/bg.jpg","images/frame_ios.png","images/play_store.png"]
 for(q=0;q<5;++q){p=o[q]
-if(H.ad8(p,".svg",0))U.ad3(new D.kO(p,1),a)
+if(H.ad8(p,".svg",0))U.ad3(new D.kO("assets/"+p,1),a)
 else U.ad3(new L.iQ(p,null,null),a)}return P.a8(null,r)}})
 return P.a9($async$a5c,r)}},G={QW:function QW(){},
 cS:function(a,b,c,d,e,f,g){var s=new G.lG(c,e,a,C.nd,b,d,C.as,C.A,new R.bx(H.a([],t.J),t.Q),new R.bx(H.a([],t.c),t.tY))
@@ -51978,7 +51978,7 @@ Y.AV.prototype={
 G:function(a,b){return new Y.AW(F.a6v(),null)}}
 E.wX.prototype={}
 N.p5.prototype={
-G:function(a,b){var s=null,r=M.a6s(s,s,new M.jb($.aeC(),1)),q=M.a6s(s,s,new D.kO("images/avatar.jpg",1))
+G:function(a,b){var s=null,r=M.a6s(s,s,new M.jb($.aeC(),1)),q=M.a6s(s,s,new D.kO("assets/images/avatar.jpg",1))
 return T.a8y(C.Ba,new B.Aj(r,q,this.c,C.qX,s))}}
 A.lL.prototype={
 G:function(a,b){var s=null
