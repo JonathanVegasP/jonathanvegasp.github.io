@@ -3,9 +3,9 @@
     "short_name": "Jonathan",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Jonathan Vegas Peixoto - Portfolio",
+    "background_color": "#009688",
+    "theme_color": "#009688",
+    "description": "Portfolio",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -3,15 +3,17 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "c0bfa8149ca8fa946fcd2aeca8babbd1",
+  "assets/AssetManifest.json": "2ef821606e3bc7b027c0a7a07df46964",
 "assets/FontManifest.json": "5a32d4310a6f5d9a6b651e75ba0d7372",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
 "assets/images/app_store.svg": "8c15379db4a2ff3da769cddb4b2da074",
 "assets/images/avatar.jpg": "f7e05af8e2a5b2d51f7769f0f083a9d5",
 "assets/images/bg.jpg": "ccb7b408cffc42a981c7774172b85365",
+"assets/images/flix_project.png": "56de1d565b6d733f747efa2c131f55e7",
 "assets/images/frame_ios.png": "63073e919283e5beae92d8a225fbf00e",
+"assets/images/multibom_lavras_project.jpg": "1d777e2acfde40df05973c6f4aefbc39",
 "assets/images/play_store.png": "424743c054ec115d6de561a5990ad85a",
-"assets/NOTICES": "e0bcc6921440d86b21009cdeebe400a3",
+"assets/NOTICES": "90902a841c373de4bd90ff3cefa27744",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "b14fcf3ee94e3ace300b192e9e7c8c5d",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-brands-400.ttf": "831eb40a2d76095849ba4aecd4340f19",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-regular-400.ttf": "a126c025bab9a1b4d8ac5534af76a208",
@@ -19,10 +21,11 @@ const RESOURCES = {
 "favicon.png": "7d6504d4cd00921b35abd4fd1130a714",
 "icons/Icon-192.png": "3b6e979165762996a51a8635a003fb3a",
 "icons/Icon-512.png": "90f252297a1ada7045bb942b72451d0e",
-"index.html": "17064d22211521889a538d63ce8f5c13",
-"/": "17064d22211521889a538d63ce8f5c13",
-"main.dart.js": "0661c31ef3379925ac21ae7bb24efaec",
-"manifest.json": "1484ea8e23818eea0f566a338f1c7869"
+"index.html": "9800785733cf70474b342a29aa3751b4",
+"/": "9800785733cf70474b342a29aa3751b4",
+"main.dart.js": "55c0d76689e2563ce1a1ab7c5a2adbac",
+"manifest.json": "666081180ed86b29c74087f5281de78e",
+"version.json": "426313f2f3133c2f20415344c4a22df3"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -36,6 +39,7 @@ const CORE = [
 "assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
@@ -104,6 +108,9 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
   var origin = self.location.origin;
   var key = event.request.url.substring(origin.length + 1);
   // Redirect URLs to the index.html
@@ -113,9 +120,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#') || key == '') {
     key = '/';
   }
-  // If the URL is not the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list then return to signal that the
+  // browser should take over.
   if (!RESOURCES[key]) {
-    return event.respondWith(fetch(event.request));
+    return;
   }
   // If the URL is the index.html, perform an online-first request.
   if (key == '/') {
@@ -139,10 +147,12 @@ self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
   if (event.data === 'skipWaiting') {
-    return self.skipWaiting();
+    self.skipWaiting();
+    return;
   }
-  if (event.message === 'downloadOffline') {
+  if (event.data === 'downloadOffline') {
     downloadOffline();
+    return;
   }
 });
 
