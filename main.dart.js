@@ -55739,7 +55739,7 @@ return P.ae(T.a6u("https://wa.me/5511976591515"),$async$nZ)
 case 4:s=b?2:3
 break
 case 2:s=5
-return P.ae(T.a7_("https://wa.me/552196312XXXX"),$async$nZ)
+return P.ae(T.a7_("https://wa.me/5511976591515"),$async$nZ)
 case 5:case 3:return P.a9(null,r)}})
 return P.aa($async$nZ,r)}}
 Q.Gg.prototype={}
